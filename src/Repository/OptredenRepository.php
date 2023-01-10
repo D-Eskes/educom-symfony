@@ -3,6 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Optreden;
+
+use App\Entity\Artiest;
+use App\Entity\Poppodium;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +51,47 @@ class OptredenRepository extends ServiceEntityRepository
         ;
     }
     */
+
+
+    public function getAllOptredens() {
+        $result = $this->findAll();
+        return ($result);
+    }
+
+    private function fetchArtiest($id) {
+        $artiest = $this->artiestRepository->fetchArtiest($id);
+        return ($artiest);
+    }
+
+    private function fetchPoppodium($id) {
+        $podium = $this->poppodiumRepository->fetchPoppodium($id);
+        return ($podium);
+    }
+
+    public function saveOptreden($params) {
+
+        $optreden = new Optreden();
+        
+        $optreden->setPodium($this->fetchPoppodium($params["poppodium_id"]));
+        $optreden->setArtiest($this->fetchArtiest($params["hoofdprogramma_id"]));
+
+        if (isset($params["voorprogramma_id"])) {
+            $optreden->setVoorprogramma($this->fetchArtiest($params["voorprogramma_id"]));
+        }
+        
+        $optreden->setOmschrijving($params["omschrijving"]);
+        $optreden->setDatum(new \DateTime($params["datum"]));
+
+        $optreden->setPrijs($params["prijs"]);
+        $optreden->setTicketUrl($params["ticket_url"]);
+        $optreden->setAfbeeldingUrl($params["afbeelding_url"]);
+
+        $this->_em->persist($optreden);
+        $this->_em->flush();
+
+        return($optreden);
+        
+    }
+
+
 }

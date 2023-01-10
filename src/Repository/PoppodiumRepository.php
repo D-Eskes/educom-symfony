@@ -47,4 +47,26 @@ class PoppodiumRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    public function savePodium($params) {
+
+        $podium = new Poppodium();
+        $podium->setNaam($params["naam"]);
+        $podium->setAdres($params["adres"]);
+        $podium->setPostcode($params["postcode"]);
+        $podium->setWoonplaats($params["woonplaats"]);
+        $podium->setTelefoonnummer($params["telefoonnummer"]);
+        $podium->setEmail($params["email"]);
+        $podium->setWebsite($params["website"]);
+        $podium->setAfbeeldingUrl($params["afbeelding_url"]);
+
+        $this->_em->persist($podium);
+        $this->_em->flush();
+
+        return ($podium);
+    }
+
+    public function fetchPoppodium($id) {
+        return($this->find($id));
+    }
 }

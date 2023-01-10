@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Artiest;
+
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -47,4 +48,24 @@ class ArtiestRepository extends ServiceEntityRepository
         ;
     }
     */
+
+    function saveArtiest($params) {
+
+        $artiest = new Artiest();
+        $artiest->setNaam($params["naam"]);
+        $artiest->setGenre($params["genre"]);
+        $artiest->setOmschrijving($params["omschrijving"]);
+        $artiest->setAfbeeldingUrl($params["afbeelding_url"]);
+        $artiest->setWebsite($params["website"]);
+
+        $this->_em->persist($artiest);
+        $this->_em->flush();
+
+        return($artiest);
+    }
+
+    public function fetchArtiest($id) {
+        return($this->find($id));
+    }
+
 }

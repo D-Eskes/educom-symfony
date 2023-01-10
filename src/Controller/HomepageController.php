@@ -9,23 +9,24 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+use App\Entity\Optreden;
 
-/**
- * @Route("/homepage")
- */
+
+#[Route("/")]
 class HomepageController extends BaseController {
-    
-    /**
-     * @Route("/", name="homepage")
-     * @Template()
-     */
+
+    #[Route("/", name: "homepage")]
     public function index() {
-        return ['controller_name' => 'HomepageController'];
+
+        $repository = $this->getDoctrine()->getRepository(Optreden::class);
+        $data = $repository->getAllOptredens();
+
+        dd($data);
+        die();
+        // return ['controller_name' => 'HomepageController'];
     }
 
-    /**
-     * @Route("/backhome", name="backhome")
-     */
+    #[Route("/backhome", name: "backhome")]
     public function backhome() {
         return $this->redirectToRoute('homepage');
     }

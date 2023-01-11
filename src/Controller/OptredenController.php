@@ -24,9 +24,9 @@ class OptredenController extends AbstractController
         $rep = $this->getDoctrine()->getRepository(Optreden::class);
         /// Ook hier weer een kleine simulatie van een "POST" request
         $optreden = [
-            "poppodium_id" => 1,
-            "hoofdprogramma_id" => 1, 
-            "voorprogramma_id" => 2,
+            "poppodium_id" => 7,
+            "hoofdprogramma_id" => 11, 
+            "voorprogramma_id" => 11, 
             "omschrijving" => "Een avondje blues uit het boekje...",
             "datum" => "2022-07-14",
             
@@ -41,6 +41,15 @@ class OptredenController extends AbstractController
         dd($result);
     }
 
+    /**
+     * @Route("/delete", name="optreden_delete_cascade")
+     */
+    public function deleteOptreden() {
+        $rep = $this->getDoctrine()->getRepository(Optreden::class);
+        $result = $rep->deleteOptredenArtiest(11);
+
+        dd($result);
+    }
 
 
 

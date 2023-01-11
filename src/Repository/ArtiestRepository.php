@@ -48,8 +48,12 @@ class ArtiestRepository extends ServiceEntityRepository
         ;
     }
     */
+    
+    public function fetchArtiest($id) {
+        return($this->find($id));
+    }
 
-    function saveArtiest($params) {
+    public function saveArtiest($params) {
 
         $artiest = new Artiest();
         $artiest->setNaam($params["naam"]);
@@ -64,8 +68,17 @@ class ArtiestRepository extends ServiceEntityRepository
         return($artiest);
     }
 
-    public function fetchArtiest($id) {
-        return($this->find($id));
+    public function deleteArtiest($id) {
+    
+        $artiest = $this->find($id);
+        if ($artiest) {
+            $this->_em->remove($artiest);
+            $this->_em->flush();
+
+            return (true);
+        }
+    
+        return (false);
     }
 
 }

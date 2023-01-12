@@ -55,7 +55,12 @@ class ArtiestRepository extends ServiceEntityRepository
 
     public function saveArtiest($params) {
 
-        $artiest = new Artiest();
+        if (isset($params["id"]) && $params["id"] != "") {
+            $artiest = $this->find($params["id"]);
+        } else {
+            $artiest = new Artiest();
+        }
+
         $artiest->setNaam($params["naam"]);
         $artiest->setGenre($params["genre"]);
         $artiest->setOmschrijving($params["omschrijving"]);

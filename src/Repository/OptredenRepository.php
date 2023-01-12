@@ -54,37 +54,22 @@ class OptredenRepository extends ServiceEntityRepository
     }
     */
 
-
     public function getAllOptredens() {
         $result = $this->findAll();
         return ($result);
     }
 
-    private function fetchArtiest($id) {
-        $artiest = $this->artiestRepository->fetchArtiest($id);
-        return ($artiest);
-    }
-
-    private function fetchPoppodium($id) {
-        $podium = $this->poppodiumRepository->fetchPoppodium($id);
-        return ($podium);
-    }
-
     public function saveOptreden($params) {
 
-        if(isset($params["id"]) && $params["id"] != "") {
+        if (isset($params["id"]) && $params["id"] != "") {
             $optreden = $this->find($params["id"]);
         } else {
             $optreden = new Optreden();
         }
         
-        $optreden->setPoppodium($this->fetchPoppodium($params["poppodium_id"]));
-        $optreden->setArtiest($this->fetchArtiest($params["hoofdprogramma_id"]));
-
-        if (isset($params["voorprogramma_id"])) {
-            $optreden->setVoorprogramma($this->fetchArtiest($params["voorprogramma_id"]));
-        }
-        
+        $optreden->setPoppodium($params["poppodium"]);
+        $optreden->setArtiest($params["hoofdprogramma"]);
+        $optreden->setVoorprogramma($params["voorprogramma"]);
         $optreden->setOmschrijving($params["omschrijving"]);
         $optreden->setDatum(new \DateTime($params["datum"]));
 

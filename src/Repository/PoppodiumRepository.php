@@ -47,26 +47,34 @@ class PoppodiumRepository extends ServiceEntityRepository
         ;
     }
     */
-
-    public function savePodium($params) {
-
-        $podium = new Poppodium();
-        $podium->setNaam($params["naam"]);
-        $podium->setAdres($params["adres"]);
-        $podium->setPostcode($params["postcode"]);
-        $podium->setWoonplaats($params["woonplaats"]);
-        $podium->setTelefoonnummer($params["telefoonnummer"]);
-        $podium->setEmail($params["email"]);
-        $podium->setWebsite($params["website"]);
-        $podium->setAfbeeldingUrl($params["afbeelding_url"]);
-
-        $this->_em->persist($podium);
-        $this->_em->flush();
-
-        return ($podium);
-    }
-
+    
     public function fetchPoppodium($id) {
         return($this->find($id));
     }
+    
+    public function savePoppodium($params) {
+
+        echo var_dump($params);
+
+        if (isset($params["id"]) && $params["id"] != "") {
+            $poppodium = $this->find($params["id"]);
+        } else {
+            $poppodium = new Poppodium();
+        }
+
+        $poppodium->setNaam($params["naam"]);
+        $poppodium->setAdres($params["adres"]);
+        $poppodium->setPostcode($params["postcode"]);
+        $poppodium->setWoonplaats($params["woonplaats"]);
+        $poppodium->setTelefoonnummer($params["telefoonnummer"]);
+        $poppodium->setEmail($params["email"]);
+        $poppodium->setWebsite($params["website"]);
+        $poppodium->setAfbeeldingUrl($params["afbeelding_url"]);
+
+        $this->_em->persist($poppodium);
+        $this->_em->flush();
+
+        return ($poppodium);
+    }
+
 }

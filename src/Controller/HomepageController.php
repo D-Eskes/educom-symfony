@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use App\Entity\Optreden;
 
 
-#[Route("/")]
+#[Route("/homepage")]
 class HomepageController extends BaseController {
 
     #[Route("/", name: "homepage")]

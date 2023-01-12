@@ -1,0 +1,30 @@
+<data>
+
+{% block body %}
+
+
+    {% for optreden in optredens %}
+
+        <optreden> 
+            <poppodium> {{optreden.Poppodium.Naam}} </poppodium>
+            <hoofdprogramma> {{optreden.Artiest.Naam}} </hoofdprogramma>
+
+            {% if optreden.Voorprogramma %}
+                <voorprogramma> {{optreden.Voorprogramma.Naam}} </voorprogramma>
+            {% endif %}
+            <omschrijving> {{optreden.omschrijving}} </omschrijving>
+            <datum> {{optreden.Datum|date('y-m-d H:i')}} </datum>
+            <prijs> {{(optreden.Prijs / 100)|number_format(2, ".", "_")}} </prijs>
+
+            <ticket> {{optreden.TicketUrl}} </ticket>
+            <afbeelding> {{optreden.AfbeeldingUrl}} </afbeelding>
+        </optreden>
+
+        {% if loop.last %}
+            DONE
+        {% endif %}
+    {% endfor %}
+
+{% endblock %}
+
+</data>

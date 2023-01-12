@@ -18,6 +18,8 @@ class HomepageController extends BaseController {
     #[Route("/", name: "homepage")]
     public function index() {
 
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $repository = $this->getDoctrine()->getRepository(Optreden::class);
         $data = $repository->getAllOptredens();
 
@@ -81,6 +83,20 @@ class HomepageController extends BaseController {
     public function saveData(Request $request) {
         $params = $request->request->all();
         dd($params);
+    }
+
+
+     /**
+     * @Route("/data_format.{_format}", name="data_format", requirements={"_format": "xml|json"})
+    */
+    public function show($_format)
+    {
+        $repository = $this->getDoctrine()->getRepository(Optreden::class);
+        $optredens = $repository->getAllOptredens();
+
+        return $this->render('homepage/format.'.$_format.'.twig', [
+            'optredens' => $optredens,
+        ]);
     }
 
 }

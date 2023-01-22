@@ -11,6 +11,11 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 
 use App\Entity\Optreden;
 
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+
+
 
 #[Route("/homepage")]
 class HomepageController extends BaseController {
@@ -60,7 +65,7 @@ class HomepageController extends BaseController {
             ["id" => 3, "naam" => "Harrie"]
         ];
         if ($_format == "json") {
-            return($this->json($data));
+            return ($this->json($data));
         } else {
         
             /// Om een array naar XML om te zetten is een parser nodig.
@@ -93,6 +98,16 @@ class HomepageController extends BaseController {
     {
         $repository = $this->getDoctrine()->getRepository(Optreden::class);
         $optredens = $repository->getAllOptredens();
+
+        if ($_format == "json") {
+
+            $response  = $this->json($optredens, Response::HTTP_OK, [], [
+                ObjectNormalizer::IGNORED_ATTRIBUTES => ["id", "__initializer__", "__cloner__", "__isInitialized__"],
+                ObjectNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object) {return ("id:" . $object->getId());}
+            ]);
+            $response->setEncodingOptions($response->getEncodingOptions() | JSON_PRETTY_PRINT);
+            return $response;
+        }
 
         return $this->render('homepage/format.'.$_format.'.twig', [
             'optredens' => $optredens,

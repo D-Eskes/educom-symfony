@@ -1,10 +1,6 @@
 <data>
-
 {% block body %}
-
-
     {% for optreden in optredens %}
-
         <optreden> 
             <poppodium> {{optreden.Poppodium.Naam}} </poppodium>
             <hoofdprogramma> {{optreden.Artiest.Naam}} </hoofdprogramma>
@@ -19,12 +15,10 @@
             <ticket> {{optreden.TicketUrl}} </ticket>
             <afbeelding> {{optreden.AfbeeldingUrl}} </afbeelding>
         </optreden>
-
         {% if loop.last %}
             DONE
         {% endif %}
     {% endfor %}
 
 {% endblock %}
-
 </data>
